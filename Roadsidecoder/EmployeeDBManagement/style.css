@@ -1,0 +1,39 @@
+body {
+  font-family: sans-serif;
+}
+h3 {
+  text-align: center;
+  width: 95%;
+  border-bottom: 1px solid red;
+  margin-top: 3px;
+}
+.rows {
+  display: flex;
+  flex-direction: row;
+  /* border: 1px solid red; */
+  justify-content: center;
+  width: 100%;
+}
+.empList {
+  width: 40%;
+  border: 1px solid red;
+}
+.empDetails {
+  width: 60%;
+  border: 1px solid red;
+  text-align: center;
+}
+ul {
+  list-style-type: none;
+  padding-left: 2px;
+}
+li {
+  background-color: darkgray;
+  margin-bottom: 3px;
+  padding-left: 3px;
+  border-radius: 5px;
+}
+span {
+  text-align: end;
+  margin-left: 70%;
+}
