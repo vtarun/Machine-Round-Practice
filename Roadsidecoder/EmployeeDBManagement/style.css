@@ -30,11 +30,14 @@ ul {
 li {
   background-color: darkgray;
   margin-bottom: 3px;
-  padding-left: 3px;
+  padding-left: 10px;
   border-radius: 5px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
 }
 span {
-  text-align: end;
-  margin-left: 70%;
+  float: right;
+  padding-right: 10px;
 }
 
