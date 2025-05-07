@@ -1,35 +1,38 @@
+const dialog = document.getElementById('dialog');
+const cancelBtn = document.getElementById('cancel');
+const submitForm = document.getElementById('submit');
+const elist = document.getElementById('elist');
+const addEmpBtn = document.getElementById('addEmpBtn');
+const employeeForm = document.getElementById('employeeForm');
+
 const employeeList = [];
 
-addEmployee({ name : "vt", address: "ad1", email: "vt@gmail.com", dob:"23/12/2025", mobile: 90898989, profile: '' });
-
-function addEmployee(emp) {
-  const employee = { ...emp };
-  addEmployeeToList(employee);
-}
 
 function deleteEmployee(index) {
   employeeList.splice(index, 1);
-   renderList();
+  showEmpleyeeDetails(0);
+  renderList();
 }
 
-function handleSubmit() {
-
+function handleSubmit(employee) {
+  addEmployeeToList(employee);
   closeDialog();
 }
 
-function handleAddEmployee() {
 
+function handleAddEmployee() {
+   dialog.showModal();
 }
 
-function closeDialog(){
-
+function closeDialog() {
+  dialog.close();
 }
 
 
 function addEmployeeToList(employee) {
   employeeList.push(employee);
   renderList();
-}
+};
 
 function renderList() {
   const ul = document.getElementById("elist");
@@ -42,10 +45,16 @@ function renderList() {
 }
 
 function showEmpleyeeDetails(index) {
-  console.log(employeeList[index]);
+  const employee = employeeList[index] || {};
+  document.getElementById('empName').innerText = employee.name || '';
+  document.getElementById('empAddress').innerText = employee.address  || '';
+  document.getElementById('empEmail').innerText = employee.email || '';
+  document.getElementById('empMobile').innerText = employee.mobile || '';
+  document.getElementById('empDob').innerText = employee.dob || '';
+  document.getElementsByTagName('img')[0].src = employee.profile || '';
 }
 
-document.getElementById('elist').addEventListener('click', function(e){
+elist.addEventListener('click', function(e){
   const target = e.target;
   if(target.tagName === 'SPAN'){
     const index = target.dataset.index;
@@ -64,6 +73,37 @@ document.getElementById('elist').addEventListener('click', function(e){
     }
 
   }
-})
+});
+
+addEmpBtn.addEventListener('click', function(e){
+ handleAddEmployee();
+});
+
+
+cancelBtn.addEventListener('click', function(e){
+   e.preventDefault();
+   closeDialog();
+});
+
+employeeForm.addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const form = e.target;
+
+  const employee = {
+    name: form.name.value,
+    address: form.address.value, 
+    email: form.email.value, 
+    dob: form.dob.value, 
+    mobile: form.mobile.value, 
+    profile: form.profile.value
+  };
+
+  form.reset();
+
+  handleSubmit(employee);
+});
+
+
 
 

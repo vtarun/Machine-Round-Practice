@@ -8,6 +8,10 @@
 </head>
 <body>
 	<div id="app" class="container">
+      <div class="rows heading">
+        <h2>Employee Database Management</h2>
+        <button id="addEmpBtn">Add Employee</button>
+    </div>
       <div class="rows">
         <div class="empList">
           <h3>Employee List</h3>
@@ -15,9 +19,51 @@
         </div>
         <div class="empDetails">
           <h3>Employee details</h3>
+          <div class="imgContainer">
+            <img src="" />
+          </div>
+          <p id="empName"></p>
+          <p id="empAddress"></p>
+          <p id="empEmail"></p>
+          <p id="empMobile"></p>          
+          <p id="empDob"></p>
         </div>
       </div>
     </div>
-	<script src="./index.js"></script>
+
+    <dialog id="dialog">
+      <form id="employeeForm">
+        <h1>I am form</h1>
+        <div>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" />
+        </div>
+        <div>
+          <label for="profile">Profile</label>
+          <input type="text" id="profile" name="profile" />
+        </div>
+        <div>
+          <label for="address">Adress</label>
+          <input type="text" id="address" name="address" />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" />
+        </div>
+        <div>
+          <label for="mobile">Contact</label>
+          <input type="text" id="mobile" name="mobile" />
+        </div>
+        <div>
+          <label for="dob">Contact</label>
+          <input type="date" id="dob" name="dob" />
+        </div>        
+        <div>
+          <button id="cancel">Close</button>
+          <button type="submit" id="submit">Submit</button>
+        </div>
+      </form>
+    </dialog>
+	<script src="./index.js" async></script>
 </body>
 </html>
