@@ -1,0 +1,50 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rows{
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  text-align: center;
+
+}
+.rows h2{
+   min-width: 100px;
+   max-width: 100px;
+}
+
+input{
+  border: 0px;
+  width: 100px;
+  text-align: center;
+  font-size: larger;
+  outline: 0px;
+}
+
+.btns__container{
+  margin-top:50px;
+  justify-content: space-around;
+}
+
+button{
+  width: 45%;
+  border: 10px;
+  padding: 5px 5px;
+  border-radius: 5px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#startCounter{
+  background-color: green;
+}
+
+#resetCounter{
+  background-color: yellow;
+}
