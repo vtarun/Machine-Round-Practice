@@ -7,21 +7,43 @@
 	<link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-	<div id="app" class="container">
-      <div class="rows">
-        <h2>Hours</h2>
-        <h2>Minutes</h2>       
-        <h2>Seconds</h2>
+	<div id="app" class="timer">
+
+      <div class="timer__row">
+        <h2 class="timer__label">Hours</h2>
+        <h2 class="timer__label">Minutes</h2>       
+        <h2 class="timer__label">Seconds</h2>
       </div>
-      <div class="rows">
-        <input type="number" class="hours" placeholder="00" maxlength="2" oninput="this.value = this.value.slice(0, this.maxLength)" /> :
-        <input type="number" class="minutes" placeholder="00" maxlength="2" oninput="this.value = this.value.slice(0, this.maxLength)" /> :
-        <input type="number" class="seconds" placeholder="00" maxlength="2" oninput="this.value = this.value.slice(0, this.maxLength)" />
+
+      <div class="timer__row">
+        <input 
+          type="number" 
+          class="timer__input timer__input--hours" 
+          placeholder="00" maxlength="2" 
+          oninput="this.value = this.value.slice(0, this.maxLength)" 
+        /> :
+
+        <input 
+          type="number" 
+          class="timer__input timer__input--minutes" 
+          placeholder="00" maxlength="2" 
+          oninput="this.value = this.value.slice(0, this.maxLength)" 
+        /> :
+
+        <input 
+          type="number" 
+          class="timer__input timer__input--seconds"  
+          placeholder="00" 
+          maxlength="2" 
+          oninput="this.value = this.value.slice(0, this.maxLength)" 
+        />
+
       </div>
-      <div class="rows btns__container">
-        <button id="startCounter">Start</button>
-        <button id="stopCounter">Stop</button>
-        <button id="resetCounter">Reset</button>
+      
+      <div class="timer__row timer__controls">
+        <button class="timer__button" id="startCounter">Start</button>
+        <button class="timer__button" id="stopCounter">Pause</button>
+        <button class="timer__button" id="resetCounter">Reset</button>
       </div>
   </div>
 
