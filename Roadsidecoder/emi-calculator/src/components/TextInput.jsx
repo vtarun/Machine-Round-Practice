@@ -1,8 +1,8 @@
-const TextInput = ({id, label, onChange, state}) => {
+const TextInput = ({label, setState, state}) => {
   return (
-    <div style={{display: 'flex', flexDirection: 'column'}}>
-        <label htmlFor={id}>{label}</label>
-        <input type="number" id={id} value={state} onChange={onChange}/>
+    <div style={{display: 'flex', flexDirection: 'column', gap: '10px', marginTop: "20px"}}>
+        <span className="label">{label}</span>
+        <input type="number" value={state} onChange={(e) => setState(e.target.value)} placeholder={label}/>
     </div>
   )
 }

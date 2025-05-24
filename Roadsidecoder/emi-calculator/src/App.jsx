@@ -1,67 +1,104 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { tenureData } from './utils/constants';
 import './App.css';
 import TextInput from './components/TextInput';
 import SliderInput from './components/SliderInput';
+import { numberWithCommas } from './utils/config'; 
 
 
 function App() {
-  const [downpayment, setDownpayment] = useState(0);
-  const [cost, setCost] = useState(5000000);
+  const [downPayment, setDownPayment] = useState(0);
+  const [cost, setCost] = useState(100);
   const [interest, setInterest] = useState(10);
   const [processingFee, setProcessingFee] = useState(1);
-  const [currentTenure, setCurrentTenure] = useState(12);
+  const [tenure, setTenure] = useState(12);
   const [emi, setEMI] = useState(0);
 
-  const updateEMI = (e) => {
-    const downpayment = ((emi - e.target.value)/emi)*100;
-    setDownpayment(downpayment);
-    setEMI(e.target.value);
+  
+
+  const calculateEMI = (dp) => {
+    if(!cost) return;
+
+    const loanAmount = cost - dp;
+    const rateOfInterest = interest / 100;
+    const numOfYears = tenure / 12;
+
+    const EMI =  (loanAmount * rateOfInterest * (1 + rateOfInterest) ** numOfYears) /
+                  ((1 + rateOfInterest) ** numOfYears - 1);
+    
+    return Number(EMI).toFixed(0);
+
   }
 
-  const calculateEMI = (e) => {
-    let tempDownpayment = downpayment;
-    if (e) {
-      tempDownpayment = Number(e.target.value);
+  const calculateDP = (emi) => {
+    if(!cost) return;
+
+    const downPaymentPercent = 100 - emi/(calculateEMI(0)) * 100;
+
+    return Number((downPaymentPercent/100)*cost).toFixed(0);
+
+  }
+
+  useEffect(() => {
+    if(!(cost > 0)){
+      setEMI(0);
+      setDownPayment(0);
     }
-    const principle = cost - (cost * (tempDownpayment / 100));
-    const monthlyInterest = interest / 12 / 100;
-    const emi = (principle * monthlyInterest * Math.pow(1 + monthlyInterest, currentTenure)) /
-                (Math.pow(1 + monthlyInterest, currentTenure) - 1);
-  
-    setDownpayment(tempDownpayment);
-    setEMI(parseInt(emi));
-    setCurrentEMI(parseInt(emi));
-  }
+
+    const emi = calculateEMI(downPayment);
+    setEMI(emi);
+
+  },[cost, tenure, interest])
   
   
 
-  const updateTenure = (tenure) => {
-    setCurrentTenure(tenure);
-    calculateEMI();
+  const updateDownPayment = (e) => {
+    if(!cost) return;
+
+    const emi = parseInt(e.target.value);
+    setEMI(emi);
+
+    const dp = calculateDP(emi);
+    setDownPayment(dp);
   }
 
-  const totalDownpayment = useMemo(() => {
-    const principle = cost * (downpayment / 100);
-    const fee = (cost - principle) * (processingFee / 100);
-    return principle + fee;
-  }, [cost, downpayment, processingFee]);
+  const updateEMI = (e) => {
+    if(!cost) return;
+
+    const dp = parseInt(e.target.value)
+    setDownPayment(dp);
+
+    const emi = calculateEMI(dp);
+    setEMI(emi);
+  }
+
+  const totalDownpayment = () => {
+    return numberWithCommas(Number((downPayment) + (cost - downPayment)*(processingFee/100)).toFixed(0));
+  }
+
+  const totalEMI = () => {
+    return numberWithCommas(emi*tenure);
+  }
+
+  
 
   return (
     <>
       <h2>EMI Calculator</h2>
-      <TextInput state={cost} onChange={(e) => setCost(e.target.value)} id="cost" label="Total cost of Asset"/>
+      <TextInput state={cost} setState={setCost} label="Total cost of Asset"/>
 
-      <TextInput state={interest} onChange={(e) => setInterest(e.target.value)} id="interest" label="Interest rate (in %)"/>
+      <TextInput state={interest} setState={setInterest} label="Interest rate (in %)"/>
       
-      <TextInput state={processingFee} onChange={(e) => setProcessingFee(e.target.value)} id="processFee" label="Processing Fee (in %)"/>        
+      <TextInput state={processingFee} setState={setProcessingFee} label="Processing Fee (in %)"/>        
       
-      <SliderInput id="downpayment" min='0' max='100' total={totalDownpayment} state={downpayment} label="Down Payment" onChange={calculateEMI} />
+      <SliderInput min={0} max={cost} showTotal={`Total Down Payment - ${totalDownpayment()}`} state={downPayment} label="Down Payment" onChange={updateEMI} labelMin={"0%"} labelMax={"100%"} />
 
-      <SliderInput id="totalLoanAmount" min='0' max={emi} total={emi} state={currentEMI} label="Loan per month" onChange={updateEMI} displayTotal="Total loan Amount"/>
-      
-      <div>
-        {tenureData.map(tenure => <button key={tenure} className={currentTenure === tenure ? 'active' : ''} onClick={() => updateTenure(tenure)}>{tenure}</button>)}
+      <SliderInput min={calculateEMI(cost)} max={calculateEMI(0)} showTotal={`Total loan Amount - ${totalEMI()}`} state={emi} label="Loan per month" onChange={updateDownPayment} />
+      <div style={{marginTop: "20px"}}>
+        <span className="label">Tenure</span>
+        <div className='tenureContainer'>        
+          {tenureData.map(t => <button key={t} className={`tenure ${t === tenure ? 'active' : ''}`} onClick={() => setTenure(t)}>{t}</button>)}
+        </div>
       </div>
     </>
   )
