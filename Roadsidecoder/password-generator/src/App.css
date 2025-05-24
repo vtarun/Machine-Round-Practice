@@ -1,0 +1,24 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  width: 30%;
+}
+
+.rows{
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkboxes{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+}
+
