@@ -4,6 +4,7 @@
   padding: 2rem;
   text-align: center;
   width: 30%;
+  background-color: #58d68e;
 }
 
 .rows{
@@ -22,3 +23,11 @@
   flex-direction: column;
 }
 
+label{
+  font-weight: 700;
+  font-size: medium;
+}
+
+input[type="checkbox"]{
+  width:20px;
+}

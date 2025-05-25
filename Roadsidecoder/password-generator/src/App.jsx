@@ -22,8 +22,42 @@ function App() {
     navigator.clipboard.writeText(generatedCode);
   }
 
+  const generateCharacter = (typeOfChar, charLength) => {
+    let result = '';
+    const {startCode, endCode} = generateLimit(typeOfChar);
+    const range = endCode - startCode;
+
+    for(let i=0;i < charLength;i++) {
+      const randomCode = startCode + Math.random()*range;
+      result += String.fromCharCode(randomCode);
+    }
+
+    return result;
+  }
+
+  const generateLimit = (typeOfChar) => {
+    let startCode = '';
+    let endCode = '';
+    if(typeOfChar === 'lower'){
+      startCode = 97;
+      endCode = 122;
+    } else if(typeOfChar === 'higher'){
+      startCode = 65;
+      endCode = 90;
+    } else if(typeOfChar === 'number'){
+      startCode = 48;
+      endCode = 57;
+    } else {
+      startCode = 33;
+      endCode = 64;
+    }
+
+    return {startCode, endCode};
+  }
+
   const generate = () => {
-    setGeneratedCode('sa*^');
+    const result = generateCharacter('number', codeLength);
+    setGeneratedCode(result);
   }
 
   const handleCheckboxChange = (i) => {
@@ -38,7 +72,7 @@ function App() {
   return (
     <>
       <div className="rows">
-        <span>{generatedCode}</span>
+        <span><b>{generatedCode}</b></span>
         <button onClick={copyCode}>Copy</button>
       </div>
       <div className="container">
