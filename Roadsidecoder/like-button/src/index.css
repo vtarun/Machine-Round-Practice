@@ -1,8 +1,8 @@
 body {
   font-family: sans-serif;
 }
-.unlike,
-.defaultBtn {
+
+button{
   cursor: pointer;
   border: 3px solid #888;
   border-radius: 20px;
@@ -15,9 +15,15 @@ body {
   justify-content: space-between;
 }
 
-.unlike:hover {
+.default:hover {
   border: 3px solid #f00;
   color: #f00;
+}
+
+.like, .likeLoading{
+  border: 3px solid #f00;
+  background-color: #f00;
+  color: white;
 }
 
 
