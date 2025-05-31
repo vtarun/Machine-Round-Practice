@@ -35,29 +35,60 @@ function App() {
 
   const itemsPerPage = 10;
   const totalPages = Math.ceil(products.length/10);
-  const paginationArray = new Array(totalPages).fill(null);
 
   const startIndex = currentPage * itemsPerPage;
   const visibleProducts = products.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <>
-      {loading && <p>Loading...</p>}
-      <div style={{width: "100%", display: "flex", "justifyContent": 'space-between', "flexWrap": "wrap"}}>
-        {visibleProducts.map(item => {
-          return (<div key={item.id}>
-            <img src={item.thumbnail} />
-          </div>)
-        })}
+    <div className='app'>
+      <h1 className='app__title'>Product Gallery</h1>
+      {loading && <p className='app__message'>Loading...</p>}
+      {error && <p className='app__message app__message--error'>{error}</p>}
+      <div className='product-grid'>
+        {visibleProducts.map(item => (
+            <div key={item.id} className='product-grid__card'>
+              <img 
+                src={item.thumbnail} 
+                alt={item.title}  
+                // onError={handleImageError}
+                className='product-grid__image'
+              />
+              <h4 className="product-grid__title">{item.title}</h4>
+              <p className="product-grid__price">{item.price}</p>
+            </div>
+        ))}
       </div>
-      <div style={{display: "flex", gap: 5}}>
-        <button  onClick={() => setCurrentPage(currentPage-1)} style={{pointerEvents: currentPage == 0 ? 'none': 'auto'}}>Previous</button>
-        {paginationArray.map((_, index) => {
-          return <button key={index} onClick={() => setCurrentPage(index)} style={{padding: "20px"}}>{index+1}</button>
-        })}
-        <button  onClick={() => setCurrentPage(currentPage+1)} style={{pointerEvents: currentPage == totalPages-1 ? 'none': 'auto'}}>Next</button>
+
+      <div className="pagination">
+        <button  
+          onClick={() => setCurrentPage(currentPage-1)} 
+          disabled={currentPage <= 0}
+          className='pagination__button'
+        >
+          Previous
+        </button>
+        {Array.from({length: totalPages}).map((_, index) => (
+          <button 
+            key={index} 
+            onClick={() => setCurrentPage(index)} 
+            aria-current={index === currentPage ? 'page' : undefined}
+            className={`pagination__button ${
+              currentPage === index ? 'pagination__button--active' : ''
+            }`}
+          >
+            {index+1}
+          </button>
+        ))}
+        <button 
+          onClick={() => setCurrentPage(currentPage+1)} 
+          disabled={currentPage >= totalPages -1}
+          className='pagination__button'
+        >
+          Next
+        </button>
       </div>
-    </>
+
+    </div>
   )
 }
 
