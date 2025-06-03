@@ -1,0 +1,19 @@
+.container, .jobs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%
+}
+
+.jobCard{
+  width: 70%;
+  background-color: bisque;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+a{
+  text-decoration: none;
+
+}
