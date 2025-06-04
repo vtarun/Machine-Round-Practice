@@ -14,12 +14,13 @@ function Job({ job }) {
 }
 
 export default function App() {
-  const [jobsList, setJobsList] = useState([]);
+  const [jobsIdList, setJobsIdList] = useState([]);
+  const [jobsDetails, setJobsDetails] = useState([]);
   const [limit, setLimit] = useState(6);
 
-  async function fetchJobDetails(jobList, limit){
+  async function fetchJobDetails(slicedJobs){
     
-    const allPromises = jobList.slice(limit, limit+6).map((id) => {
+    const allPromises = slicedJobs.map((id) => {
       const url = `https://hacker-news.firebaseio.com/v0/item/${id}.json`
       return fetch(url, {
             method: 'GET', 
@@ -27,7 +28,7 @@ export default function App() {
           }).then(response => response.json());
     });
 
-    Promise.all(allPromises).then(result => { setJobsList(result)})
+    Promise.all(allPromises).then(result => { setJobsDetails([...jobsDetails, ...result])})
   }
   async function fetchJobs(){
     try{    
@@ -38,7 +39,10 @@ export default function App() {
           }
       );
       const jobIds = await response.json();
-      fetchJobDetails(jobIds, 0);
+      const slicedJobs = jobIds.slice(0, limit);
+
+      setJobsIdList(jobIds);
+      fetchJobDetails(slicedJobs);
 
     } catch(err){
 
@@ -47,7 +51,10 @@ export default function App() {
   };
 
   function loadMoreJobs(){
-    fetchJobDetails(jobIds, 0);
+    const endLimit = Math.min(limit + 6, jobsIdList.length);
+    const slicedJobs = jobsIdList.slice(limit, endLimit);
+    setLimit(endLimit);    
+    fetchJobDetails(slicedJobs, endLimit);
   }
 
   useEffect(() => {
@@ -58,11 +65,11 @@ export default function App() {
     <div className="container">
       <h3 className="title">Hacker News Jobs Board</h3>
       <div className="jobs">
-        {jobsList.map((job) => {
+        {jobsDetails.map((job) => {
           return <Job key={job.id} job={job} />;
         })}
       </div>
-      <button onClick={loadMoreJobs}>Load more jobs</button>
+      <button onClick={loadMoreJobs} disabled={limit >= jobsIdList.length}>Load more jobs</button>
     </div>
   );
 }
