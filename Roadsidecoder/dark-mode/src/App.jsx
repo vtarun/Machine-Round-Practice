@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css'
-import Home from './pages/Home';
-import About from './pages/About';
-import Blog from './pages/Blog';
-import Navbar from './components/Navbar';
+import Home from './pages/home';
+import About from './pages/about';
+import Blog from './pages/blog';
+import Navbar from './components/navbar';
+import { ThemeContextProvider } from './theme.context';
 
 function App() {
 
   return (
-    <>      
-      
+    <ThemeContextProvider>            
       <BrowserRouter>
         {/* Navbar */}
         <Navbar />
@@ -23,7 +23,7 @@ function App() {
         </Routes>      
       </BrowserRouter>
 
-    </>
+    </ThemeContextProvider>
   )
 }
 
